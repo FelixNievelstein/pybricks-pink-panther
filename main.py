@@ -2,7 +2,7 @@ from pybricks.hubs import PrimeHub
 from pybricks.pupdevices import Motor, ColorSensor
 from pybricks.parameters import Port, Color
 from pybricks.tools import wait
-from .greifen import oeffnen
+# from .greifen import oeffnen
 
 hub = PrimeHub()
 
@@ -37,7 +37,7 @@ class Driver:
             # Gerade aus
             if self.blackCount >= 300:
                 self.base_speed = 150
-                self.angle = DEFAULT_ANGLE
+                self.angle = self.DEFAULT_ANGLE
                 self.whiteCount = 0
                 self.direction = 1
                 self.left_motor.run(-self.base_speed)
@@ -62,7 +62,7 @@ class Driver:
             if self.whiteCount == self.angle:
                 print("change direction")
                 self.direction = self.direction * -1
-                self.angle = self.angle + (DEFAULT_ANGLE / 2)
+                self.angle = self.angle + (self.DEFAULT_ANGLE / 2)
                 self.whiteCount = self.angle * -1
                 
             else:
