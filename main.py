@@ -2,7 +2,6 @@ from pybricks.hubs import PrimeHub
 from pybricks.pupdevices import Motor, ColorSensor
 from pybricks.parameters import Port
 from pybricks.tools import wait
-import micropython
 
 
 hub = PrimeHub()
