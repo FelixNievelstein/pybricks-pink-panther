@@ -2,6 +2,7 @@ from pybricks.hubs import PrimeHub
 from pybricks.pupdevices import Motor, ColorSensor
 from pybricks.parameters import Port, Color
 from pybricks.tools import wait
+from .greifen import oeffnen
 
 hub = PrimeHub()
 
