@@ -13,7 +13,7 @@ right_motor = Motor(Port.C)
 sensor = ColorSensor(Port.E)
 
 # Reflektionswerte
-BLACK = 10
+BLACK = 15
 WHITE = 98
 LILA = 30
 YELLOW = 89
@@ -21,16 +21,30 @@ BLUE = 57
 THRESHOLD = (BLACK + WHITE) / 2
 
 Kp = 1.0
-base_speed = 200
+base_speed = 50
+whiteCount = 0
+direction = 1
+reflectionList = []
 
 while True:
     reflection = sensor.reflection()
-    print(reflection)
     error = reflection - THRESHOLD
     turn = Kp * error
-
+    print(reflection)
     # Drehgeschwindigkeit setzen (in Grad/Sek)
-    # left_motor.run(base_speed - turn)
-    # right_motor.run(base_speed + turn)
+    reflectionList.append(reflection)
+    if reflection < BLACK: 
+        direction = 1
+        left_motor.run(-base_speed)
+        right_motor.run(base_speed)    
+    elif reflection >= WHITE:
+        if whiteCount == 5:
+            direction = -1            
+            print("change direction")
+
+        left_motor.run((base_speed - turn) * direction)
+        right_motor.run((base_speed + turn) * direction)
+        whiteCount += 1
+    
 
     wait(10)
