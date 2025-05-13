@@ -1,6 +1,6 @@
 from pybricks.hubs import PrimeHub
 from pybricks.pupdevices import Motor, ColorSensor
-from pybricks.parameters import Port
+from pybricks.parameters import Port, Color
 from pybricks.tools import wait
 
 
@@ -32,35 +32,26 @@ reflection3 = 0
 reflection4 = 0
 reflection5 = 0
 
-def calcMoving(reflection):
-    print(reflection)
-    if reflection < BLACK: 
+def calcMoving(color):
+    print(color)
+    if color == Color.BLACK: 
         direction = 1
         left_motor.run(-base_speed)
         right_motor.run(base_speed)
-    elif reflection == 30:
-        print("Stop LILA")   
-    elif reflection >= WHITE:
+    elif color == Color.YELLOW:
+        print("Stop Gelb")   
+    elif color == Color.WHITE:
         if whiteCount == 5:
             direction = -1            
             print("change direction")
 
-        left_motor.run((base_speed - turn) * direction)
-        right_motor.run((base_speed + turn) * direction)
+        left_motor.run(base_speed - direction)
+        right_motor.run(base_speed + direction)
         whiteCount += 1
 
-def getAverage():
-    return (reflection1 + reflection2 + reflection3 + reflection4 + reflection5) / 5
-
 while True:
-    reflection = sensor.reflection()
-    error = reflection - THRESHOLD
-    turn = Kp * error
+    sensor.detectable_colors([Color.BLACK, Color.WHITE, Color.MAGENTA, Color.VIOLET, Color.YELLOW, Color.BLUE])
+    color = sensor.color()
     # Drehgeschwindigkeit setzen (in Grad/Sek)
-
-    print(sensor.color())
-
-    currentRef = getAverage()
-    calcMoving(currentRef)
 
     wait(10)
