@@ -13,6 +13,7 @@ right_motor = Motor(Port.C)
 
 # Farbsensor
 sensor = ColorSensor(Port.E)
+sensor.lights.off()
 
 # Reflektionswerte
 BLACK = 15
@@ -26,7 +27,11 @@ Kp = 1.0
 base_speed = 50
 whiteCount = 0
 direction = 1
-reflectionList = []
+reflection1 = 0
+reflection2 = 0
+reflection3 = 0
+reflection4 = 0
+reflection5 = 0
 
 def calcMoving(reflection):
     print(reflection)
@@ -45,20 +50,18 @@ def calcMoving(reflection):
         right_motor.run((base_speed + turn) * direction)
         whiteCount += 1
 
-def shouldCalcMoving():
-    len(reflectionList) > 10
-
 def getAverage():
-    return sum(reflectionList) / len(reflectionList)
+    return (reflection1 + reflection2 + reflection3 + reflection4 + reflection5) / 5
 
 while True:
     reflection = sensor.reflection()
     error = reflection - THRESHOLD
     turn = Kp * error
     # Drehgeschwindigkeit setzen (in Grad/Sek)
-    reflectionList.append(reflection)
-    shouldCalc = shouldCalcMoving()
-    if shouldCalc:
-        currentRef = getAverage()
-        reflectionList.clear()
-        calcMoving(currentRef)      
+
+    print(sensor.color())
+
+    currentRef = getAverage()
+    calcMoving(currentRef)
+
+    wait(10)
